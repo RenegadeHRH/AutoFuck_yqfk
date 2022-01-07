@@ -1,3 +1,7 @@
+#乱码问题已经修复，本地部署可以正常使用
+## TODO：
+>解决GitHubAction问题
+
 # AutoFuck_yqfk
 早睡计划，自动打卡
 >Q：为什么要做这个？  
