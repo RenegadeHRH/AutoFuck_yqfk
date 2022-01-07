@@ -18,5 +18,5 @@ jobs:
         run: |
          sudo timedatectl set-timezone 'Asia/Shanghai'
          echo $(date +%F)
-         .\AutoFuck_yqfk_V1.0.ps1 -username 201841413111 -psw hRh756810279
+         .\AutoFuck_yqfk_V1.0.ps1 -username ${{secret.username}}  -psw ${{secret.psw}} 
          
