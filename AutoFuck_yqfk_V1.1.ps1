@@ -186,12 +186,12 @@ return $raw
  #>
  $name= (replaceUtoChar(separateValueString (findData 'name')))
  $faculty_name =(replaceUtoChar(separateValueString (findData 'faculty_name')))
- $class_name= (replaceUtoChar(separateValueString (findData 'class_name')))
+ $class_name= (replaceUtoChar(separateValueString (findData 'class_name')))<##>
  $username=separateValueString(findData 'username')
- $card_number=separateValueString(findData 'card_number')
+ $card_number=separateValueString(findData 'card_number')<##>
  $identity_type=separateValueString(findDataValue 'identity_type')
  $tel =separateValueString(findData 'tel')
- $body_temperature = separateValueString(findDataValue 'body_temperature')
+ $body_temperature = separateValueString(findDataValue 'body_temperature')<##>
  $body_temperature=$body_temperature.insert($body_temperature.Length-1,"`"").insert(0,"`"")
  $connect_person=(replaceUtoChar(separateValueString (findData 'connect_person')))
  $connect_tel = separateValueString(findData 'connect_tel')
@@ -212,10 +212,10 @@ return $raw
  $jiguan_region_name = (replaceUtoChar(separateValueString (findData 'jiguan_region_name')))
  $current_region_name = (replaceUtoChar(separateValueString (findData 'current_region_name')))
  $card_type= separateValueString(findData 'card_type')
- $campus= separateValueString(findDataValue 'campus')
+ $campus= separateValueString(findDataValue 'campus')<##>
  $health_situation= separateValueString(findDataValue 'health_situation')
  $have_gone_important_area = separateValueString(findDataValue 'have_gone_important_area')
-
+ $processing_method = separateValueString(findDataValue 'processing_method')
 
  $have_contact_hubei_people = separateValueString(findDataValue 'have_contact_hubei_people')
  $have_contact_illness_people =  separateValueString(findDataValue 'have_contact_illness_people')
@@ -225,7 +225,7 @@ return $raw
  $is_specific_people =separateValueString(findDataValue 'is_specific_people')
  $health_code_status =separateValueString(findDataValue 'health_code_status')
  $in_controllerd_area = separateValueString(findDataValue 'in_controllerd_area')
- $completed_vaccination= separateValueString(findDataValue 'completed_vaccination')
+ $completed_vaccination= separateValueString(findDataValue 'completed_vaccination')<##>
  $is_in_school=separateValueString(findDataValue 'is_in_school')
  $have_stay_area = separateValueString(findDataValue 'have_stay_area')
  $family_situation = (separateValueString (findDataForm 'family_situation'))
@@ -237,7 +237,12 @@ return $raw
  $gps_province_name = (replaceUtoChar(separateValueString (findData 'gps_province_name')))
  $gps_city_name= (replaceUtoChar(separateValueString (findData 'gps_city_name')))
  $gps_district_name =(replaceUtoChar(separateValueString(findData 'gps_district_name')))
- $gps_address_name=(replaceUtoChar(separateValueString(findData 'gps_address_name')))
+ $gps_address_name=(replaceUtoChar(separateValueString(findData 'gps_address_name'))) 
+
+
+ $holiday_travel_situation=(replaceUtoChar(separateValueString(findData 'holiday_travel_situation')))
+ $holiday_go_out=separateValueString(findDataValue 'holiday_go_out')
+
 
  $submitdata="{`"data`":{`"submit_time`":`""+ 
  $(Get-Date -Format 'yyyy-M-d')
@@ -345,6 +350,12 @@ return $raw
  if($is_in_dg){
  $submitdata=$submitdata+"`"is_in_dg`":"+$is_in_dg
  }
+   if($holiday_travel_situation){
+ $submitdata=$submitdata+"`"holiday_travel_situation`":"+$holiday_travel_situation
+ }
+   if($holiday_go_out){
+ $submitdata=$submitdata+"`"holiday_go_out`":"+$holiday_go_out
+ }
  if($have_go_out){
  $submitdata=$submitdata+"`"have_go_out`":"+$have_go_out
  }
@@ -361,7 +372,7 @@ return $raw
  $submitdata=$submitdata+"`"completed_vaccination`":"+$completed_vaccination
  }
  if($is_in_school){
- $submitdata=$submitdata+"`"completed_vaccination`":"+$is_in_school
+ $submitdata=$submitdata+"`"is_in_school`":"+$is_in_school
  }
  if($have_stay_area){
  $submitdata=$submitdata+"`"have_stay_area`":"+$have_stay_area
@@ -393,9 +404,11 @@ return $raw
  if($gps_district_name){
  $submitdata=$submitdata+"`"gps_district_name`":"+$gps_district_name
  }
+
  if($gps_address_name){
  $submitdata=$submitdata+"`"gps_address_name`":"+$gps_address_name
  }
+
 
  $submitdata=$submitdata+"}}"
  $submitdata = $submitdata -replace "`",}}",'"}}'
@@ -430,8 +443,8 @@ return $s
 }
 
 
-$submitdata= (replaceHex2Int $submitdata)-replace '\\/','/'
-<#$submitdata = ((replaceChar $submitdata) -replace '\\/','/')#>
+<#$submitdata= (replaceHex2Int $submitdata)-replace '\\/','/'#>
+$submitdata = ((replaceChar $submitdata) -replace '\\/','/')
 #$submitdata=ConvertTo-Json $submitdata
 echo $submitdata 
 <#----------------发送数据-------------#>
